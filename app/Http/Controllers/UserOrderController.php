@@ -10,17 +10,14 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
-class UserOrderController extends Controller
+readonly class UserOrderController
 {
-    protected $discountRate;
-    protected $shippingCost;
-    protected $taxRate;
-
-    public function __construct()
+    public function __construct(
+        protected float $discountRate = 0.1,
+        protected float $shippingCost = 15.99,
+        protected float $taxRate = 0.21
+    )
     {
-        $this->discountRate = 0.1; // 10% zniżki dla zamówień powyżej pewnej kwoty
-        $this->shippingCost = 15.99; // Koszt wysyłki standardowej
-        $this->taxRate = 0.21; // Podatek 21%
     }
 
     public function registerUser(Request $request)
