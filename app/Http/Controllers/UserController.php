@@ -14,22 +14,7 @@ class UserController extends Controller
 {
     public function registerAndNotify(Request $request)
     {
-        // Rozbudowana walidacja danych
-        $validatedData = $request->validate([
-            'username' => 'required|max:255',
-            'email' => 'required|email',
-        ]);
-
-        // Sprawdzenie, czy email jest unikalny
-        $existingUser = User::where('email', $validatedData['email'])->first();
-        if ($existingUser) {
-            throw new Exception("User with this email already exists.");
-        }
-
-        // Sprawdzenie, czy nazwa użytkownika jest poprawna (tylko litery i cyfry)
-        if (!preg_match('/^[a-zA-Z0-9]+$/', $validatedData['username'])) {
-            throw new Exception("Username can only contain letters and numbers.");
-        }
+        $validatedData = $this->isValidated($request);
 
         // Tworzenie użytkownika z rozbudowanym logowaniem i walidacją
         $user = new User();
@@ -108,5 +93,34 @@ class UserController extends Controller
             'user' => $user,
             'token' => $token
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws Exception
+     */
+    private function isValidated(Request $request): array
+    {
+        // Rozbudowana walidacja danych
+        $validatedData = $request->validate([
+            'username' => 'required|max:255',
+            'email' => 'required|email|unique:users,email',
+        ]);
+        dd('mam');
+
+
+//        // Sprawdzenie, czy email jest unikalny
+//        $existingUser = User::where('email', $validatedData['email'])->first();
+//        if ($existingUser) {
+//            throw new Exception("User with this email already exists.");
+//        }
+
+        // Sprawdzenie, czy nazwa użytkownika jest poprawna (tylko litery i cyfry)
+        if (!preg_match('/^[a-zA-Z0-9]+$/', $validatedData['username'])) {
+            throw new Exception("Username can only contain letters and numbers.");
+        }
+
+        return $validatedData;
     }
 }
