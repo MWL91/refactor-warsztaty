@@ -107,8 +107,6 @@ class UserController extends Controller
             'username' => 'required|max:255',
             'email' => 'required|email|unique:users,email',
         ]);
-        dd('mam');
-
 
 //        // Sprawdzenie, czy email jest unikalny
 //        $existingUser = User::where('email', $validatedData['email'])->first();
