@@ -2,9 +2,9 @@
 
 namespace App\Exporters;
 
-class CsvExporter
+class CsvExporter implements Export
 {
-    public function exportToCsv($products)
+    public function export(array $products): string
     {
         // Logika eksportu produktów do formatu CSV
         $csv = "Product Name,Price\n";

@@ -8,13 +8,13 @@ use Illuminate\Contracts\Support\Arrayable;
 class Product implements Arrayable
 {
     public function __construct(
-        private string $name,
-        private float $price,
-        private int $stock,
-        private ?array $tags = null,
+        protected string $name,
+        protected float  $cena,
+        protected int    $stock,
+        protected ?array $tags = null,
     )
     {
-        if ($name === '' || $price <= 0 || $stock < 0) {
+        if ($name === '' || $cena <= 0 || $stock < 0) {
             throw new \InvalidArgumentException('Invalid product data');
         }
     }
@@ -33,7 +33,7 @@ class Product implements Arrayable
     {
         return [
             'name' => $this->name,
-            'price' => $this->price,
+            'price' => $this->cena,
             'stock' => $this->stock,
             'tags' => $this->tags,
         ];
@@ -44,9 +44,9 @@ class Product implements Arrayable
         return $this->name;
     }
 
-    public function getPrice(): float
+    public function getCena(): float
     {
-        return $this->price;
+        return $this->cena;
     }
 
     public function getStock(): int
