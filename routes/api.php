@@ -19,7 +19,7 @@ Route::post('/products', [ProductManagementController::class, 'addProduct']);
 Route::post('/products/create-or-update', [ProductManagementController::class, 'createOrUpdateProduct']);
 
 // Trasa do aktualizacji istniejącego produktu
-Route::put('/products/{id}', [ProductManagementController::class, 'updateProduct']);
+Route::put('/products/{product}', [ProductManagementController::class, 'updateProduct']);
 
 // Trasa do usuwania produktu
 Route::delete('/products/{id}', [ProductManagementController::class, 'deleteProduct']);

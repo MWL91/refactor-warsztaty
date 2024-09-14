@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Http\Requests\CreateProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product as ProductModel;
 use App\ProductService;
+use App\ValueObjects\Product;
 use Illuminate\Http\Request;
 
 class ProductManagementController extends Controller
 {
     // Metoda do dodawania nowego produktu
-    public function addProduct(Request $request)
+    public function addProduct(CreateProductRequest $request)
     {
-        $productName = $request->input('name'); // string
-        $productPrice = $request->input('price'); // float
-        $productStock = $request->input('stock'); // int
-        $productTags = $request->input('tags'); // array (tagi produktu)
-
-        $this->validateProductData($productName, $productPrice, $productStock);
-
-        $product = $this->createProduct($productName, $productPrice, $productStock, $productTags);
+        $product = $this->createProduct($request->getProduct());
 
         return response()->json([
             'message' => 'Product added successfully',
@@ -27,22 +23,9 @@ class ProductManagementController extends Controller
     }
 
     // Metoda do aktualizacji istniejącego produktu
-    public function updateProduct(Request $request, $id)
+    public function updateProduct(UpdateProductRequest $request, ProductModel $product)
     {
-        $productName = $request->input('name'); // string
-        $productPrice = $request->input('price'); // float
-        $productStock = $request->input('stock'); // int
-        $productTags = $request->input('tags'); // array (tagi produktu)
-
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
-        }
-
-        $this->validateProductData($productName, $productPrice, $productStock);
-
-        $this->updateProductDetails($product, $productName, $productPrice, $productStock, $productTags);
+        $this->updateProductDetails($product, $request->getProduct());
 
         return response()->json([
             'message' => 'Product updated successfully',
@@ -53,7 +36,7 @@ class ProductManagementController extends Controller
     // Metoda do usuwania produktu
     public function deleteProduct($id)
     {
-        $product = Product::find($id);
+        $product = ProductModel::find($id);
 
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
@@ -69,7 +52,7 @@ class ProductManagementController extends Controller
     // Metoda do wyświetlania szczegółów produktu
     public function getProduct($id)
     {
-        $product = Product::find($id);
+        $product = ProductModel::find($id);
 
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
@@ -80,36 +63,18 @@ class ProductManagementController extends Controller
         ]);
     }
 
-    // Metoda do walidacji danych produktu
-    private function validateProductData($name, $price, $stock)
-    {
-        if (!$name || $price <= 0 || $stock < 0) {
-            throw new \InvalidArgumentException('Invalid product data');
-        }
-    }
-
     // Metoda do tworzenia produktu
-    private function createProduct($name, $price, $stock, $tags)
+    private function createProduct(Product $product)
     {
-        $product = new Product();
-        $product->name = $name;
-        $product->price = $price;
-        $product->stock = $stock;
-        $product->tags = json_encode($tags); // Zapisujemy tagi jako JSON
-        $product->save();
-
-        return $product;
+        $model = new ProductModel($product->toArray());
+        $model->save();
+        return $model;
     }
 
     // Metoda do aktualizacji szczegółów produktu
-    private function updateProductDetails($product, $name, $price, $stock, $tags)
+    private function updateProductDetails(ProductModel $entity, Product $product)
     {
-        if ($name) $product->name = $name;
-        if ($price) $product->price = $price;
-        if ($stock) $product->stock = $stock;
-        if ($tags) $product->tags = json_encode($tags); // Zapisujemy tagi jako JSON
-
-        $product->save();
+        $entity->update($product->toArray());
     }
 
     // Metoda do usuwania produktu
