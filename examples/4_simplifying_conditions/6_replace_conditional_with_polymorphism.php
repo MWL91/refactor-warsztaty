@@ -39,6 +39,11 @@ class WrongExampleReplaceConditionalWithPolymorphism extends Bird {
 }
 
 class European extends Bird {
+    public function __construct(int $numberOfCoconuts, bool $isNailed, int $voltage)
+    {
+        parent::__construct('EUROPEAN', $numberOfCoconuts, $isNailed, $voltage);
+    }
+
     public function getSpeed(): int {
         return $this->getBaseSpeed();
     }

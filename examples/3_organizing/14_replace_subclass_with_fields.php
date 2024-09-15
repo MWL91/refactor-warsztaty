@@ -48,12 +48,46 @@ class GoodExampleReplaceSubclassWithFields
     }
 }
 
+class BetterExampleReplaceSubclassWithFields
+{
+    public function __construct(
+        private EmployeeType $employeeType
+    )
+    {
+    }
+
+    public function getDescription(): string
+    {
+        return $this->employeeType->getDescription();
+    }
+}
+
+enum EmployeeType
+{
+    case FULL_TIME;
+    case PART_TIME;
+    case INTERN;
+
+    public function getDescription(): string
+    {
+        return match ($this) {
+            self::FULL_TIME => 'Full-time employee',
+            self::PART_TIME => 'Part-time employee',
+            self::INTERN => 'Intern',
+        };
+    }
+}
+
 
 // Użycie
 $fullTimeEmployee = new GoodExampleReplaceSubclassWithFields('full-time');
 echo $fullTimeEmployee->getDescription() . "\n"; // Wynik: Full-time employee
 $fullTimeEmployee = new FullTimeEmployee();
 echo $fullTimeEmployee->getDescription() . "\n"; // Wynik: Full-time employee
+
+$class = new BetterExampleReplaceSubclassWithFields(EmployeeType::FULL_TIME);
+echo $class->getDescription();
+
 
 $partTimeEmployee = new GoodExampleReplaceSubclassWithFields('part-time');
 echo $partTimeEmployee->getDescription() . "\n"; // Wynik: Part-time employee

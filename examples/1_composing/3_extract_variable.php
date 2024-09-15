@@ -4,7 +4,7 @@
 // php -S localhost:1234
 // http://localhost:1234/3_extract_variable.php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 // Wrong example:
 

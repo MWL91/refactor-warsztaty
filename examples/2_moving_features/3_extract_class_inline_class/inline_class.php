@@ -9,7 +9,7 @@
  * stworzyć do tego osobną klasę - przykłąd w Extract Class.
  */
 
-class Person
+class Person implements Location
 {
     public function __construct(
         private string $firstName,
@@ -28,6 +28,25 @@ class Person
     {
         return "{$this->street}, {$this->city}, {$this->postalCode}";
     }
+}
+
+class Address implements Location
+{
+    public function __construct(
+        private string $street,
+        private string $city,
+        private string $postalCode
+    ) {}
+
+    public function getFullAddress(): string
+    {
+        return "{$this->street}, {$this->city}, {$this->postalCode}";
+    }
+}
+
+interface Location
+{
+    public function getFullAddress(): string;
 }
 
 $person = new Person('Jan', 'Kowalski', 'Kwiatowa 15', 'Warszawa', '00-001');

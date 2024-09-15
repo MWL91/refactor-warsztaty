@@ -4,17 +4,17 @@ class WrongExampleReplaceMagicNumberWithSymbolicConstant
 {
     public function getHoursFromUnixTimeStart(): int
     {
-        return ceil(time() / 60);
+        return ceil(time() / 3600);
     }
 }
 
 class GoodExampleReplaceMagicNumberWithSymbolicConstant
 {
-    private const int MINUTES_IN_HOUR = 60;
+    private const int SECONDS_IN_HOUR = 3600;
 
     public function getHoursFromUnixTimeStart(): int
     {
-        return ceil(time() / self::MINUTES_IN_HOUR);
+        return ceil(time() / self::SECONDS_IN_HOUR);
     }
 }
 

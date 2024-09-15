@@ -1,8 +1,8 @@
 <?php
 
-use Carbon\CarbonInterface;
-
 require_once __DIR__ . '/../../vendor/autoload.php';
+
+use Carbon\CarbonInterface;
 
 $date = now();
 define('SUMMER_START', date('Y-06-01'));

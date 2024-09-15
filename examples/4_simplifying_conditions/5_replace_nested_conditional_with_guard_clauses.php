@@ -30,19 +30,12 @@ readonly class PersonalRelation
 
     public function goodExampleReplaceNestedConditionalWithGuardClauses(): float
     {
-        if ($this->isDead) {
-            return $this->deadAmount();
-        }
-
-        if ($this->isSeparated) {
-            return $this->separatedAmount();
-        }
-
-        if ($this->isRetired) {
-            return $this->retiredAmount();
-        }
-
-        return $this->normalPayAmount();
+        return match(true) {
+            $this->isDead => $this->deadAmount(),
+            $this->isSeparated => $this->separatedAmount(),
+            $this->isRetired => $this->retiredAmount(),
+            default => $this->normalPayAmount()
+        };
     }
 
     private function deadAmount(): float

@@ -47,9 +47,7 @@ function wrongExampleIntroduceNullObject(?Customer $customer): BillingPlan
 
 function goodExampleIntroduceNullObject(?Customer $customer): BillingPlan
 {
-    $customer = ($customer !== null) ?
-        $customer :
-        new NullCustomer;
+    $customer ??= new NullCustomer;
 
     $plan = $customer->getPlan();
     $plan->print();

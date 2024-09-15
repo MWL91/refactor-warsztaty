@@ -29,6 +29,6 @@ function goodExampleRemoveControlFlag(array $people): bool
 }
 
 // Użycie
-$people = ["Alice", "Bob", "Don"];
+$people = ["Alice", "Don", "Bob"];
 var_dump(wrongExampleRemoveControlFlag($people)); // Wynik: true
 var_dump(goodExampleRemoveControlFlag($people)); // Wynik: true

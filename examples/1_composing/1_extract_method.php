@@ -37,10 +37,8 @@ class GoodExampleExtract {
     }
 
     public function printOwing(): void {
-        $amount = $this->getAmount();
-
         $this->printBanner();
-        $this->printDetails($this->name, $amount);
+        $this->printDetails($this->name, $this->getAmount());
     }
 
     private function printBanner(): void

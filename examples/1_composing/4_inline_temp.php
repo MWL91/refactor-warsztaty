@@ -1,6 +1,6 @@
 <?php
 
-$anOrder = new class {
+$anOrder = new class{
     public function basePrice(): int
     {
         return 1001;

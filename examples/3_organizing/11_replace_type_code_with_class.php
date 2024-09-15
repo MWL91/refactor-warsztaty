@@ -57,3 +57,4 @@ var_dump($badExample->canTransfer(666)); // Wynik: false
 
 $goodExample = new GoodExampleReplaceTypeCodeWithClass(BloodType::BLOOD_TYPE_A);
 var_dump($goodExample->canTransfer(BloodType::BLOOD_TYPE_AB)); // Wynik: true
+var_dump($goodExample->canTransfer(BloodType::BLOOD_TYPE_B)); // Wynik: false
