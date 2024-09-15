@@ -12,13 +12,18 @@ class ProductManagementControllerTest extends TestCase
 
     public function testAddProductSuccessfully()
     {
-        $response = $this->postJson('/api/products', [
+        // Given:
+        $payload = [
             'name' => 'Test Product',
             'price' => 99.99,
             'stock' => 10,
             'tags' => ['electronics', 'gadgets'],
-        ]);
+        ];
 
+        // When:
+        $response = $this->postJson('/api/products', $payload);
+
+        // Then:
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'message',
